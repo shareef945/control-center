@@ -60,6 +60,7 @@ docker.getEvents(
     }
     stream.on("data", (data) => {
       const event = JSON.parse(data.toString());
+      console.log("Docker event:", event); // Log the raw event data
 
       if (event.Type === "container") {
         const imageName = event.Actor.Attributes.image;
