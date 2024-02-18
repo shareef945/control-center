@@ -58,18 +58,22 @@ docker.getEvents(
     if (!stream) {
       return console.error("Stream is undefined");
     }
-
     stream.on("data", (data) => {
       const event = JSON.parse(data.toString());
 
-      if (
-        event.Type === "container" &&
-        ["start", "die"].includes(event.Action)
-      ) {
-        const imageNameWithTag = event.Actor.Attributes.image;
-        const imageName = imageNameWithTag.split(":")[0];
-        const status = event.Action === "start" ? "running" : "stopped";
-        sendSms(imageName, status);
+      if (event.Type === "container") {
+        const imageName = event.Actor.Attributes.image;
+        let statusMessage;
+
+        if (event.Action === "start") {
+          statusMessage = "running";
+        } else if (event.Action === "die") {
+          statusMessage = "stopped";
+        }
+
+        if (statusMessage) {
+          sendSms(imageName, statusMessage);
+        }
       }
     });
   }
