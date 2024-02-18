@@ -1,2 +1,0 @@
-// DATABSE CONFIG
-
