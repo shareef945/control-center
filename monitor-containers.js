@@ -20,8 +20,7 @@ function formatDateTime(date) {
 // Function to send SMS
 function sendSms(containerName, status) {
   const dateTime = formatDateTime(new Date());
-  const statusMessage = status === "start" ? "running" : "stopped";
-  const messageBody = `${containerName} is ${statusMessage} as of ${dateTime}.`;
+  const messageBody = `${containerName} is ${status} as of ${dateTime}.`;
 
   twilioClient.messages
     .create({
